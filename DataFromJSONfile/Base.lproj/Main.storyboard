@@ -25,17 +25,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nOe-j8-M9N">
-                                            <rect key="frame" x="20" y="53.5" width="38" height="24"/>
+                                            <rect key="frame" x="20" y="51" width="31" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" name="KhmerSangamMN" family="Khmer Sangam MN" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0au-9X-2Km">
-                                            <rect key="frame" x="20" y="81" width="40.5" height="13.5"/>
+                                            <rect key="frame" x="20" y="83" width="40.5" height="13.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="295.6521739130435" y="97.767857142857139"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="CEU-t9-B4m">
             <objects>
-                <viewController id="PfO-q5-pSC" customClass="ViewController" customModule="DataFromJSONfile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PfO-q5-pSC" customClass="MapViewController" customModule="DataFromJSONfile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eev-3U-TwX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
