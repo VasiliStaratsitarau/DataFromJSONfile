@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewController: UITableViewController/* UISearchBarDelegate*/ {
+class TableViewController: UITableViewController {
     
     let data = DataLoader().cityData
     var filteredData = [CityData]()
@@ -15,7 +15,6 @@ class TableViewController: UITableViewController/* UISearchBarDelegate*/ {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "City"
         setSearchBarUI()
         getFilteredData()
     }
@@ -26,18 +25,7 @@ class TableViewController: UITableViewController/* UISearchBarDelegate*/ {
     }
     // MARK: - placing data in cells
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
-        }
-
-    func setSearchBarUI() {
-        searchBarController.searchBar.delegate = self
-        searchBarController.obscuresBackgroundDuringPresentation = false
-        searchBarController.searchBar.sizeToFit()
-        navigationItem.searchController = searchBarController
-    }
-    
-   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let dataForTable = filteredData[indexPath.row]
         let id = String(dataForTable._id)
@@ -47,18 +35,29 @@ class TableViewController: UITableViewController/* UISearchBarDelegate*/ {
         cell.detailTextLabel?.text = lat + " " + lon
         return cell
     }
+    // MARK: - segue data in MapViewController
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailSeagway" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let dvc = segue.destination as! MapViewController
-                dvc.coord = filteredData[indexPath.row].coord
-                dvc.name = filteredData[indexPath.row].name
-                dvc.country = filteredData[indexPath.row].country
+                let mvc = segue.destination as! MapViewController
+                mvc.coord = filteredData[indexPath.row].coord
+                mvc.name = filteredData[indexPath.row].name
+                mvc.country = filteredData[indexPath.row].country
             }
         }
+    }
+    // MARK: - searchbar configuration
+    
+    func setSearchBarUI() {
+        searchBarController.searchBar.delegate = self
+        searchBarController.obscuresBackgroundDuringPresentation = false
+        searchBarController.searchBar.sizeToFit()
+        navigationItem.searchController = searchBarController
+        navigationItem.hidesSearchBarWhenScrolling = false
         
     }
+    // MARK: - search logic configuration
     
     func getFilteredData(searchedText: String = String()) {
         let filteredListData: [CityData] = data.filter({ (object) -> Bool in
@@ -69,20 +68,3 @@ class TableViewController: UITableViewController/* UISearchBarDelegate*/ {
     }
 }
 
-extension TableViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        getFilteredData(searchedText: searchBar.text ?? String())
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-        searchBar.text = String()
-        getFilteredData()
-    }
-    
-}

@@ -13,7 +13,6 @@ public class DataLoader {
     
     init() {
         load()
-        //  sort()
     }
     
     func load() {
@@ -27,8 +26,5 @@ public class DataLoader {
                 print(error)
             }
         }
-        //        func sort() {
-        //            self.cityData = self.cityData.sorted(by: { $0.})
-        //        }
     }
 }

@@ -18,4 +18,4 @@ struct Coord: Codable {
     let lon: Double
     let lat: Double
 }
-//{"country":"UA","name":"Hurzuf","_id":707860,"coord":{"lon":34.283333,"lat":44.549999}}
+
