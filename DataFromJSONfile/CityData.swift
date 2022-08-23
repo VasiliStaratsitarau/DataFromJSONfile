@@ -8,10 +8,17 @@
 import Foundation
 
 struct CityData: Codable {
-    var country: String
-    var name: String
-    var _id: Int
+    let country: String
+    let name: String
+    let id: Int
     let coord: Coord
+    
+    enum CodingKeys: String, CodingKey {
+        case country
+        case name
+        case id = "_id"
+        case coord
+    }
 }
 
 struct Coord: Codable {

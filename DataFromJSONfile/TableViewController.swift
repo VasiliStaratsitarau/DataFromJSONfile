@@ -28,10 +28,10 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let dataForTable = filteredData[indexPath.row]
-        let id = String(dataForTable._id)
+        let country = String(dataForTable.country)
         let lat = String(dataForTable.coord.lat)
         let lon = String(dataForTable.coord.lat)
-        cell.textLabel?.text = dataForTable.name + " " + id
+        cell.textLabel?.text = dataForTable.name + " " + country
         cell.detailTextLabel?.text = lat + " " + lon
         return cell
     }
@@ -40,10 +40,10 @@ class TableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailSeagway" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let mvc = segue.destination as! MapViewController
+                guard let mvc = segue.destination as? MapViewController else { return }
                 mvc.coord = filteredData[indexPath.row].coord
                 mvc.name = filteredData[indexPath.row].name
-                mvc.country = filteredData[indexPath.row].country
+                mvc.id = filteredData[indexPath.row].id
             }
         }
     }

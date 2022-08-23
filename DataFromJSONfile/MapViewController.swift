@@ -12,9 +12,9 @@ import CoreLocation
 class MapViewController: UIViewController {
     // MARK: - segue data from cell
     
-    var coord: Coord!
-    var name: String!
-    var country: String!
+    var coord: Coord = .init(lon: 0.0, lat: 0.0)
+    var name: String = ""
+    var id: Int = 0
 
     @IBOutlet weak var mapField: MKMapView!
     
@@ -28,7 +28,7 @@ class MapViewController: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
         annotation.title = name
-        annotation.subtitle = "Country:" + " " + country
+        annotation.subtitle = "ID:" + " " + String(id)
         let coordinateRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1600, longitudinalMeters: 1600)
         mapField.setRegion(coordinateRegion, animated: true)
         mapField.addAnnotation(annotation)
