@@ -61,10 +61,15 @@ class TableViewController: UITableViewController {
     
     func getFilteredData(searchedText: String = String()) {
         let filteredListData: [CityData] = data.filter({ (object) -> Bool in
-            searchedText.isEmpty ? true : object.name.lowercased().contains(searchedText.lowercased())
+            searchedText.isEmpty ? true : object.name.contains(searchedText)
         })
         filteredData = filteredListData
         tableView.reloadData()
+    }
+    // MARK: - Binary search logic configuration
+    
+    func getBinaryFilteredData(searchedText: String = String()) {
+        
     }
 }
 
