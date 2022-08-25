@@ -26,14 +26,16 @@ class TableViewController: UITableViewController {
     // MARK: - placing data in cells
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? TableViewCell
+        guard let tableViewCell = cell else { return UITableViewCell() }
+        
         let dataForTable = filteredData[indexPath.row]
         let country = String(dataForTable.country)
         let lat = String(dataForTable.coord.lat)
         let lon = String(dataForTable.coord.lat)
-        cell.textLabel?.text = dataForTable.name + " " + country
-        cell.detailTextLabel?.text = lat + " " + lon
-        return cell
+        tableViewCell.textLabel?.text = dataForTable.name + " " + country
+        tableViewCell.detailTextLabel?.text = lat + " " + lon
+        return tableViewCell
     }
     // MARK: - segue data in MapViewController
     

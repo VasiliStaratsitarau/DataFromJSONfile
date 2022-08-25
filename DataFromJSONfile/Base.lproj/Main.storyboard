@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="nOe-j8-M9N" detailTextLabel="0au-9X-2Km" rowHeight="150" style="IBUITableViewCellStyleSubtitle" id="6Fv-79-XgK">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="nOe-j8-M9N" detailTextLabel="0au-9X-2Km" rowHeight="150" style="IBUITableViewCellStyleSubtitle" id="6Fv-79-XgK" customClass="TableViewCell" customModule="DataFromJSONfile" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Fv-79-XgK" id="3u6-Ub-37J">
@@ -41,6 +41,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="cityCoord" destination="0au-9X-2Km" id="ENO-SC-jd0"/>
+                                    <outlet property="cityNameAndCountryXX" destination="nOe-j8-M9N" id="wSV-Bh-srN"/>
                                     <segue destination="PfO-q5-pSC" kind="show" identifier="detailSeagway" id="3mB-ur-n9a"/>
                                 </connections>
                             </tableViewCell>
