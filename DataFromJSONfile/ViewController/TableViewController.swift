@@ -68,8 +68,4 @@ class TableViewController: UITableViewController {
     }
     // MARK: - Binary search logic configuration
     
-    func getBinaryFilteredData(searchedText: String = String()) {
-        
-    }
 }
-
