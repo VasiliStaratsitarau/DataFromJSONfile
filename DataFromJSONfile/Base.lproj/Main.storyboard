@@ -54,7 +54,21 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="786-OT-c7b">
                         <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="cgi-Wl-DxI">
+                            <rect key="frame" x="141.5" y="6" width="131" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Binary"/>
+                                <segment title="Func"/>
+                            </segments>
+                            <connections>
+                                <action selector="selector:" destination="ilo-tF-nZb" eventType="valueChanged" id="VCQ-ne-UK0"/>
+                            </connections>
+                        </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentControlOutlet" destination="cgi-Wl-DxI" id="Zvg-ti-8p4"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dGM-BA-Cnj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

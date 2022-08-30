@@ -10,7 +10,12 @@ import UIKit
 extension TableViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        getFilteredDataBinary(searchedText: searchBar.text ?? String())
+        if segmentControlOutlet.selectedSegmentIndex == 0 {
+            getFilteredDataBinary(searchedText: searchBar.text ?? String())
+            }
+        if segmentControlOutlet.selectedSegmentIndex == 1 {
+            getFilteredData(searchedText: searchBar.text ?? String())
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -20,7 +25,12 @@ extension TableViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
         searchBar.text = String()
-        getFilteredDataBinary()
+        if segmentControlOutlet.selectedSegmentIndex == 0 {
+            getFilteredDataBinary()
+            }
+        if segmentControlOutlet.selectedSegmentIndex == 1 {
+            getFilteredData()
+        }
     }
 }
 
