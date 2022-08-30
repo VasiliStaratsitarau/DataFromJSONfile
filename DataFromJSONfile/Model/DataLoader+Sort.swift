@@ -17,7 +17,7 @@ public class DataLoader {
     }
     
     func load() {
-        if let filelocation = Bundle.main.url(forResource: "citiesSmall", withExtension: "json") {
+        if let filelocation = Bundle.main.url(forResource: "citiesSmall4Tests", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: filelocation)
                 let jsonDecoder = JSONDecoder()

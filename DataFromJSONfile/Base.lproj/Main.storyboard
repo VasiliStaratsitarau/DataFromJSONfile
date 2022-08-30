@@ -52,7 +52,9 @@
                             <outlet property="delegate" destination="ilo-tF-nZb" id="Hyo-jW-RS0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="786-OT-c7b"/>
+                    <navigationItem key="navigationItem" id="786-OT-c7b">
+                        <nil key="title"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dGM-BA-Cnj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
