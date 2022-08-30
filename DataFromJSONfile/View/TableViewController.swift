@@ -20,26 +20,21 @@ class TableViewController: UITableViewController {
         setSearchBarUI()
         getFilteredDataBinary()
         
-        }
+    }
     // MARK: - Table view data source
     
-   
     @IBAction func selector(_ sender: UISegmentedControl) {
-            switch segmentControlOutlet.selectedSegmentIndex {
-            case 0:
-                getFilteredDataBinary()
-            case 1:
-                
-                getFilteredData()
-            default:
-                
-                break;
-            }
+        switch segmentControlOutlet.selectedSegmentIndex {
+        case 0:
+            getFilteredDataBinary()
+        case 1:
+            getFilteredData()
+        default:
+            break;
         }
-    
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableView.reloadData()
         return filteredData.count
     }
     // MARK: - placing data in cells
@@ -76,15 +71,14 @@ class TableViewController: UITableViewController {
         searchBarController.searchBar.sizeToFit()
         navigationItem.searchController = searchBarController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
     }
     
     // MARK: -  filter search logic configuration
     func getFilteredData(searchedText: String = String()) {
-             let filteredListData: [CityData] = data.filter({ (object) -> Bool in
-                searchedText.isEmpty ? true : object.name.contains(searchedText)
-             })
-             filteredData = filteredListData
+        let filteredListData: [CityData] = data.filter({ (object) -> Bool in
+            searchedText.isEmpty ? true : object.name.contains(searchedText)
+        })
+        filteredData = filteredListData
         tableView.reloadData()
     }
     
