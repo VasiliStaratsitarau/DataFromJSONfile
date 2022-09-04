@@ -6,6 +6,7 @@
 //
 
 import UIKit
+pod "RxSwift"
 
 class TableViewController: UITableViewController {
     
