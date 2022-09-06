@@ -11,10 +11,10 @@ extension TableViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if segmentControlOutlet.selectedSegmentIndex == 0 {
-            getFilteredDataBinary(searchedText: searchBar.text ?? String())
+            getFilteredDataBinary(searchedText: searchBar.text ?? "")
             }
         if segmentControlOutlet.selectedSegmentIndex == 1 {
-            getFilteredData(searchedText: searchBar.text ?? String())
+            getFilteredData(searchedText: searchBar.text ?? "")
         }
     }
     
@@ -24,13 +24,14 @@ extension TableViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
-        searchBar.text = String()
-        if segmentControlOutlet.selectedSegmentIndex == 0 {
-            getFilteredDataBinary()
-            }
-        if segmentControlOutlet.selectedSegmentIndex == 1 {
-            getFilteredData()
-        }
+        searchBar.text = ""
+        getFilteredDataBinary(searchedText: "")
+//        if segmentControlOutlet.selectedSegmentIndex == 0 {
+//            
+//        }
+//        if segmentControlOutlet.selectedSegmentIndex == 1 {
+//            getFilteredData()
+//        }
     }
 }
 

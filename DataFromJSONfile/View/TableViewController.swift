@@ -6,7 +6,7 @@
 //
 
 import UIKit
-pod "RxSwift"
+import RxSwift
 
 class TableViewController: UITableViewController {
     
@@ -19,7 +19,7 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSearchBarUI()
-        getFilteredDataBinary()
+        getFilteredDataBinary(searchedText: "")
         
     }
     // MARK: - Table view data source
@@ -27,17 +27,18 @@ class TableViewController: UITableViewController {
     @IBAction func selector(_ sender: UISegmentedControl) {
         switch segmentControlOutlet.selectedSegmentIndex {
         case 0:
-            getFilteredDataBinary()
+            getFilteredDataBinary(searchedText: "")
         case 1:
             getFilteredData()
         default:
-            break;
+            break
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredData.count
     }
+    
     // MARK: - placing data in cells
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,9 +59,7 @@ class TableViewController: UITableViewController {
         if segue.identifier == "detailSeagway" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 guard let mvc = segue.destination as? MapViewController else { return }
-                mvc.coord = filteredData[indexPath.row].coord
-                mvc.name = filteredData[indexPath.row].name
-                mvc.id = filteredData[indexPath.row].id
+                mvc.city = filteredData[indexPath.row]
             }
         }
     }
@@ -74,44 +73,82 @@ class TableViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    // MARK: -  filter search logic configuration
-    func getFilteredData(searchedText: String = String()) {
+    // MARK: - filter search logic configuration
+    
+    func getFilteredData(searchedText: String = "") {
         let filteredListData: [CityData] = data.filter({ (object) -> Bool in
             searchedText.isEmpty ? true : object.name.contains(searchedText)
         })
+        // можно ли это как-то вынести?
         filteredData = filteredListData
         tableView.reloadData()
     }
     
     // MARK: - Binary search logic configuration
     
-    func getFilteredDataBinary(searchedText: String = String()) {
+    func getFilteredDataBinary(searchedText: String) {
         
-        var wordToFind: CityData = .init(country: "", name: "", id: 0, coord: .init(lon: 0.0, lat: 0.0))
-        var count = 0
-        var firstIndex = 0
-        var lastIndex = data.count - 1
+//        var wordToFind: CityData = .init(country: "", name: "", id: 0, coord: .init(lon: 0.0, lat: 0.0))
+//        var count = 0
+//        var firstIndex = 0
+//        var lastIndex = data.count
+//
+//        while firstIndex <= lastIndex {
+//
+//            count += 1
+//            let middleIndex = (firstIndex + lastIndex) / 2
+//            let middleValue = data[middleIndex]
+//            if middleValue.name == searchedText {
+//                wordToFind = middleValue
+//                break
+//            }
+//            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedDescending {
+//                firstIndex = middleIndex + 1
+//            }
+//            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedAscending {
+//                lastIndex = middleIndex - 1
+//            }
+//        }
+//        let filteredListData: [CityData] = data.filter({ (object) -> Bool in
+//            wordToFind.name.isEmpty ? true : object.name.contains(wordToFind.name)
+//        })
         
-        while firstIndex <= lastIndex {
-            
-            count += 1
-            let middleIndex = (firstIndex + lastIndex) / 2
-            let middleValue = data[middleIndex]
-            if middleValue.name == searchedText {
-                wordToFind = middleValue
+        guard !searchedText.isEmpty else {
+            filteredData = data
+            tableView.reloadData()
+            return
+        }
+        
+        var lowerBound = 0
+        var upperBound = data.count
+        var randomValidMidIndex: Int?
+        
+        while lowerBound < upperBound {
+            let midIndex = lowerBound + (upperBound - lowerBound) / 2
+            if data[midIndex].name.lowercased().hasPrefix(searchedText.lowercased()) {
+                randomValidMidIndex = midIndex
                 break
-            }
-            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedDescending {
-                firstIndex = middleIndex + 1
-            }
-            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedAscending {
-                lastIndex = middleIndex - 1
+            } else if data[midIndex].name.lowercased() < searchedText.lowercased()  {
+                lowerBound = midIndex + 1
+            } else {
+                upperBound = midIndex
             }
         }
-        let filteredListData: [CityData] = data.filter({ (object) -> Bool in
-            wordToFind.name.isEmpty ? true : object.name.contains(wordToFind.name)
-        })
-        filteredData = filteredListData
+        
+        guard let midIndex = randomValidMidIndex else { return }
+        
+        var startIndex = midIndex
+        var endIndex = midIndex
+        
+        while startIndex > -1, data[startIndex].name.lowercased().hasPrefix(searchedText.lowercased()) {
+            startIndex -= 1
+        }
+        
+        while endIndex < data.count, data[endIndex].name.lowercased().hasPrefix(searchedText.lowercased()) {
+            endIndex += 1
+        }
+        
+        filteredData = Array(data[(startIndex + 1)..<endIndex])
         tableView.reloadData()
     }
 }
