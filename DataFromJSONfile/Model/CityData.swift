@@ -11,7 +11,7 @@ struct CityData: Codable {
     let country: String
     let name: String
     let id: Int
-    let coord: Coord
+    var coord: Coord
     
     enum CodingKeys: String, CodingKey {
         case country

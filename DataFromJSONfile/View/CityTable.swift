@@ -7,25 +7,45 @@
 
 import UIKit
 import RxSwift
+import PureLayout
 
-class TableViewController: UITableViewController {
+class CityTable: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var tableView = UITableView()
+    let cellID = "Cell"
     
     var data = DataLoader().cityData
     var filteredData = [CityData]()
+    
     let searchBarController = UISearchController(searchResultsController: nil)
+    var segmentControl: UISegmentedControl!
     
     @IBOutlet weak var segmentControlOutlet: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addControl()
         setSearchBarUI()
         getFilteredDataBinary(searchedText: "")
+        tableView = UITableView(frame: self.view.bounds, style: UITableView.Style.plain)
+        self.tableView.register(myCell.self, forCellReuseIdentifier: cellID)
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.view.addSubview(tableView)
         
     }
-    // MARK: - Table view data source
+    // MARK: - Selector
+    func addControl() {
+        let segmentItems = ["Binary", "Filter"]
+        segmentControl = UISegmentedControl(items: segmentItems)
+        segmentControl.addTarget(self, action: #selector(selector(_:)), for: .valueChanged)
+        segmentControl.selectedSegmentIndex = 0
+        view.addSubview(segmentControl)
+        navigationItem.titleView = segmentControl
+    }
     
-    @IBAction func selector(_ sender: UISegmentedControl) {
-        switch segmentControlOutlet.selectedSegmentIndex {
+    @objc func selector(_ sender: UISegmentedControl) {
+        switch segmentControl.selectedSegmentIndex {
         case 0:
             getFilteredDataBinary(searchedText: "")
         case 1:
@@ -34,35 +54,33 @@ class TableViewController: UITableViewController {
             break
         }
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // MARK: - Table: view data source
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredData.count
     }
-    
-    // MARK: - placing data in cells
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? TableViewCell
-        guard let tableViewCell = cell else { return UITableViewCell() }
-        
-        let dataForTable = filteredData[indexPath.row]
-        let country = String(dataForTable.country)
-        let lat = String(dataForTable.coord.lat)
-        let lon = String(dataForTable.coord.lat)
-        tableViewCell.textLabel?.text = dataForTable.name + " " + country
-        tableViewCell.detailTextLabel?.text = lat + " " + lon
-        return tableViewCell
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
     }
-    // MARK: - segue data in MapViewController
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailSeagway" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                guard let mvc = segue.destination as? MapViewController else { return }
-                mvc.city = filteredData[indexPath.row]
-            }
+    // MARK: - Table: placing data in cells
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: myCell? = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? myCell
+        if cell == nil {
+            cell = myCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: cellID)
         }
+        cell?.setUpCell()
+        cell?.cityLabel.text = filteredData[indexPath.row].name + filteredData[indexPath.row].country
+        cell?.coordLabel.text = String(filteredData[indexPath.row].coord.lat) + " " + String(filteredData[indexPath.row].coord.lon)
+        return cell!
     }
+    
+    // MARK: - Table: sending data in MapViewController
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mapVC = MapViewController()
+        mapVC.city = filteredData[indexPath.row]
+        navigationController?.pushViewController(mapVC, animated: true)
+    }
+    
     // MARK: - searchbar configuration
     
     func setSearchBarUI() {
@@ -73,7 +91,7 @@ class TableViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    // MARK: - filter search logic configuration
+    // MARK: - search logic: filter
     
     func getFilteredData(searchedText: String = "") {
         let filteredListData: [CityData] = data.filter({ (object) -> Bool in
@@ -84,34 +102,9 @@ class TableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Binary search logic configuration
+    // MARK: - search logic: binary
     
     func getFilteredDataBinary(searchedText: String) {
-        
-//        var wordToFind: CityData = .init(country: "", name: "", id: 0, coord: .init(lon: 0.0, lat: 0.0))
-//        var count = 0
-//        var firstIndex = 0
-//        var lastIndex = data.count
-//
-//        while firstIndex <= lastIndex {
-//
-//            count += 1
-//            let middleIndex = (firstIndex + lastIndex) / 2
-//            let middleValue = data[middleIndex]
-//            if middleValue.name == searchedText {
-//                wordToFind = middleValue
-//                break
-//            }
-//            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedDescending {
-//                firstIndex = middleIndex + 1
-//            }
-//            if searchedText.localizedCompare(middleValue.name) == ComparisonResult.orderedAscending {
-//                lastIndex = middleIndex - 1
-//            }
-//        }
-//        let filteredListData: [CityData] = data.filter({ (object) -> Bool in
-//            wordToFind.name.isEmpty ? true : object.name.contains(wordToFind.name)
-//        })
         
         guard !searchedText.isEmpty else {
             filteredData = data

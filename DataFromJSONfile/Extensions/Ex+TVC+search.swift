@@ -7,17 +7,16 @@
 
 import UIKit
 
-extension TableViewController: UISearchBarDelegate {
+extension CityTable: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if segmentControlOutlet.selectedSegmentIndex == 0 {
+        if segmentControl.selectedSegmentIndex == 0 {
             getFilteredDataBinary(searchedText: searchBar.text ?? "")
         }
-        if segmentControlOutlet.selectedSegmentIndex == 1 {
+        if segmentControl.selectedSegmentIndex == 1 {
             getFilteredData(searchedText: searchBar.text ?? "")
         }
     }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
     }
