@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import PureLayout
 
 class CityTable: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
